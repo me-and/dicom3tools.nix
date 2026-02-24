@@ -18,5 +18,6 @@ my local repository for the rare occasions I want it and for reference for
 anyone who manages to stumble across it.
 
 References:
-https://groups.google.com/g/comp.protocols.dicom/c/cZ8mYtQOXGM
-https://sources.debian.org/src/dicom3tools/1.00~20140902075059-1/debian/README.Debian/
+
+-   [Mailing list discussion about packaging the tools for Debian](https://groups.google.com/g/comp.protocols.dicom/c/cZ8mYtQOXGM)
+-   [Debian packaging notes](https://sources.debian.org/src/dicom3tools/1.00~20140902075059-1/debian/README.Debian/)
