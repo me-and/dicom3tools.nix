@@ -23,7 +23,10 @@
       {
         packages.dicom3tools = import ./. { inherit pkgs; };
         packages.default = self.packages."${system}".dicom3tools;
-        checks.default = self.packages."${system}".dicom3tools;
+        checks = {
+          default = self.packages."${system}".dicom3tools;
+          overlaid = (pkgs.extend self.overlays.default).dicom3tools;
+        };
         formatter = pkgs.nixfmt-tree;
       }
     );
