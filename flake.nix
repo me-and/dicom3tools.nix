@@ -13,7 +13,7 @@
       flake-utils,
     }:
     {
-      overlays.default = final: prev: { dicom3tools = final.callPackage ./package.nix { }; };
+      overlays.default = final: prev: { dicom3tools = import ./. { inherit (final) pkgs; }; };
     }
     // flake-utils.lib.eachDefaultSystem (
       system:
@@ -21,7 +21,7 @@
         pkgs = nixpkgs.legacyPackages."${system}";
       in
       {
-        packages.dicom3tools = pkgs.callPackage ./package.nix { };
+        packages.dicom3tools = import ./. { inherit pkgs; };
         packages.default = self.packages."${system}".dicom3tools;
         checks.default = self.packages."${system}".dicom3tools;
         formatter = pkgs.nixfmt-tree;
