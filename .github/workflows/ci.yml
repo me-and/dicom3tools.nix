@@ -1,0 +1,45 @@
+name: CI checks
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '53 5 * * 3'
+
+jobs:
+  no-build-fmt:
+    name: Check formatting and evaluation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@v21
+      - name: Set up Nix caching
+        uses: DeterminateSystems/magic-nix-cache-action@v13
+      - name: Check formatting
+        run: nix fmt -- --ci
+      - name: Check evaluation
+        run: nix flake check --no-build --all-systems --keep-going
+
+  build:
+    name: Build check derivations
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      matrix:
+        runner:
+          - ubuntu-latest
+          - ubuntu-24.04-arm
+          - macos-latest
+
+    steps:
+      - name: Recover runner disk space
+        if: matrix.runner != 'macos-latest'
+        uses: wimpysworld/nothing-but-nix@v10
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@v21
+      - name: Set up Nix caching
+        uses: DeterminateSystems/magic-nix-cache-action@v13
+      - name: Run checks
+        run: nix flake check --keep-going
